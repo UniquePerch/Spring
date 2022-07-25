@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+<bean name="student" class="com.test.bean.Student" scope="prototype" autowire="byName">
+        <constructor-arg  value="小明" name="name"></constructor-arg>
+        <constructor-arg value="18" name="age"></constructor-arg>
+    </bean>
+    <bean name="card" class="com.test.bean.Card"></bean>
+    <bean name="aoptest" class="com.test.aop.Aoptest"></bean>
+    <bean name="before" class="com.test.aop.AopAdvice"></bean>
+    <aop:config>
+<!--        <aop:aspect ref="aoptest">&lt;!&ndash;>定义一个aop操作 参数：aop操作bean（需要注册为bean）<&ndash;&gt;-->
+<!--            <aop:around method="around" pointcut-ref="aftersay"></aop:around> &lt;!&ndash;>环绕方法，全部交给自己执行<&ndash;&gt;-->
+<!--        </aop:aspect>-->
+<!--        <aop:aspect ref="aoptest">-->
+<!--            <aop:pointcut id="beforetest" expression="@annotation(Deprecated)"/>&lt;!&ndash;>在某注解处添加切点<&ndash;&gt;-->
+<!--            <aop:before method="before" pointcut-ref="beforetest"></aop:before> &lt;!&ndash;>切点操作<&ndash;&gt;-->
+<!--        </aop:aspect>-->
+        <aop:pointcut id="aftersay" expression="execution(* com.test.bean.Student.say(String))"/> <!-->定义切点<-->
+        <aop:advisor advice-ref="before" pointcut-ref="aftersay"></aop:advisor>
+    </aop:config>
+</beans>
